@@ -1,0 +1,836 @@
+
+html_content = '''<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>حملة وفرها ونورها - جامعة الابتكار</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background: #0a0e27;
+            color: #fff;
+            overflow-x: hidden;
+        }
+        
+        /* Animated background */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: linear-gradient(135deg, #0a0e27 0%, #1a1f4b 50%, #0d1b2a 100%);
+        }
+        
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+        
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: #ffd700;
+            border-radius: 50%;
+            animation: twinkle 2s infinite alternate;
+        }
+        
+        @keyframes twinkle {
+            0% { opacity: 0.3; }
+            100% { opacity: 1; box-shadow: 0 0 10px #ffd700; }
+        }
+        
+        /* Floating light bulbs */
+        .bulb-container {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+        
+        .floating-bulb {
+            position: absolute;
+            font-size: 2rem;
+            animation: float 8s ease-in-out infinite;
+            opacity: 0.6;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-30px) rotate(10deg); }
+        }
+        
+        /* Header */
+        header {
+            text-align: center;
+            padding: 40px 20px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .logo-section {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 30px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .university-badge {
+            background: linear-gradient(135deg, #1e3a5f, #2d5a87);
+            padding: 15px 30px;
+            border-radius: 15px;
+            border: 2px solid #ffd700;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+        }
+        
+        .university-badge h3 {
+            font-size: 1.2rem;
+            color: #ffd700;
+        }
+        
+        .main-title {
+            font-size: 4rem;
+            font-weight: 900;
+            background: linear-gradient(45deg, #ffd700, #ffec8b, #ffd700);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: none;
+            margin: 20px 0;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+        
+        @keyframes glow {
+            from { filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.5)); }
+            to { filter: drop-shadow(0 0 30px rgba(255, 215, 0, 0.8)); }
+        }
+        
+        .subtitle {
+            font-size: 1.5rem;
+            color: #a0c4ff;
+            margin-bottom: 10px;
+        }
+        
+        .sponsor {
+            font-size: 1.1rem;
+            color: #ffd700;
+            background: rgba(255, 215, 0, 0.1);
+            display: inline-block;
+            padding: 10px 25px;
+            border-radius: 25px;
+            border: 1px solid rgba(255, 215, 0, 0.3);
+        }
+        
+        /* Interactive light switch */
+        .switch-section {
+            text-align: center;
+            padding: 40px 20px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .switch-container {
+            display: inline-block;
+            position: relative;
+        }
+        
+        .light-switch {
+            width: 120px;
+            height: 200px;
+            background: linear-gradient(145deg, #2a2a2a, #1a1a1a);
+            border-radius: 15px;
+            position: relative;
+            cursor: pointer;
+            box-shadow: 
+                inset 0 2px 5px rgba(255,255,255,0.1),
+                0 10px 30px rgba(0,0,0,0.5);
+            transition: all 0.3s;
+        }
+        
+        .switch-toggle {
+            width: 80px;
+            height: 100px;
+            background: linear-gradient(145deg, #3a3a3a, #2a2a2a);
+            border-radius: 10px;
+            position: absolute;
+            top: 15px;
+            left: 20px;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        
+        .switch-toggle::after {
+            content: '';
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 30px;
+            height: 4px;
+            background: #555;
+            border-radius: 2px;
+        }
+        
+        .switch-label {
+            margin-top: 20px;
+            font-size: 1.2rem;
+            color: #ffd700;
+        }
+        
+        /* Light bulb animation */
+        .bulb-display {
+            font-size: 8rem;
+            margin: 30px 0;
+            transition: all 0.5s;
+            filter: grayscale(1) brightness(0.3);
+        }
+        
+        .bulb-display.on {
+            filter: grayscale(0) brightness(1);
+            animation: bulbPulse 1.5s ease-in-out infinite;
+        }
+        
+        @keyframes bulbPulse {
+            0%, 100% { transform: scale(1); filter: drop-shadow(0 0 20px #ffd700); }
+            50% { transform: scale(1.1); filter: drop-shadow(0 0 40px #ffd700); }
+        }
+        
+        /* Stats cards */
+        .stats-section {
+            padding: 40px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+        }
+        
+        .stat-card {
+            background: linear-gradient(135deg, rgba(30, 58, 95, 0.8), rgba(45, 90, 135, 0.6));
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 215, 0, 0.1) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .stat-card:hover::before {
+            opacity: 1;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(255, 215, 0, 0.2);
+            border-color: rgba(255, 215, 0, 0.5);
+        }
+        
+        .stat-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: #ffd700;
+            margin: 10px 0;
+        }
+        
+        .stat-label {
+            font-size: 1rem;
+            color: #a0c4ff;
+        }
+        
+        /* Tips section */
+        .tips-section {
+            padding: 60px 20px;
+            max-width: 1000px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            color: #ffd700;
+            margin-bottom: 40px;
+        }
+        
+        .tips-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .tip-card {
+            background: linear-gradient(135deg, rgba(20, 40, 80, 0.9), rgba(30, 60, 100, 0.7));
+            border-radius: 15px;
+            padding: 25px;
+            border-right: 4px solid #ffd700;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        
+        .tip-card:hover {
+            transform: translateX(-10px);
+            background: linear-gradient(135deg, rgba(30, 58, 95, 0.95), rgba(45, 90, 135, 0.8));
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        
+        .tip-number {
+            display: inline-block;
+            width: 35px;
+            height: 35px;
+            background: #ffd700;
+            color: #0a0e27;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 35px;
+            font-weight: 900;
+            margin-left: 10px;
+        }
+        
+        .tip-text {
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+        
+        /* Interactive calculator */
+        .calculator-section {
+            padding: 40px 20px;
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .calc-card {
+            background: linear-gradient(135deg, rgba(30, 58, 95, 0.9), rgba(20, 40, 80, 0.8));
+            border-radius: 20px;
+            padding: 40px;
+            border: 2px solid rgba(255, 215, 0, 0.3);
+        }
+        
+        .calc-title {
+            text-align: center;
+            font-size: 1.8rem;
+            color: #ffd700;
+            margin-bottom: 30px;
+        }
+        
+        .calc-input {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .input-group label {
+            color: #a0c4ff;
+            font-size: 1rem;
+        }
+        
+        .input-group input, .input-group select {
+            padding: 12px 15px;
+            border-radius: 10px;
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            background: rgba(10, 14, 39, 0.8);
+            color: #fff;
+            font-size: 1.1rem;
+            font-family: 'Tajawal', sans-serif;
+            transition: all 0.3s;
+        }
+        
+        .input-group input:focus, .input-group select:focus {
+            outline: none;
+            border-color: #ffd700;
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.2);
+        }
+        
+        .input-group select option {
+            background: #0a0e27;
+            color: #fff;
+        }
+        
+        .calc-btn {
+            background: linear-gradient(135deg, #ffd700, #ffec8b);
+            color: #0a0e27;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 30px;
+            font-size: 1.2rem;
+            font-weight: 900;
+            font-family: 'Tajawal', sans-serif;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: block;
+            margin: 0 auto;
+        }
+        
+        .calc-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.4);
+        }
+        
+        .calc-result {
+            text-align: center;
+            margin-top: 30px;
+            padding: 25px;
+            background: rgba(255, 215, 0, 0.1);
+            border-radius: 15px;
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            display: none;
+        }
+        
+        .calc-result.show {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .result-amount {
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: #ffd700;
+        }
+        
+        .result-text {
+            font-size: 1.1rem;
+            color: #a0c4ff;
+            margin-top: 10px;
+        }
+        
+        /* Pledge section */
+        .pledge-section {
+            padding: 60px 20px;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .pledge-btn {
+            background: linear-gradient(135deg, #ffd700, #ff8c00);
+            color: #0a0e27;
+            border: none;
+            padding: 20px 60px;
+            border-radius: 50px;
+            font-size: 1.5rem;
+            font-weight: 900;
+            font-family: 'Tajawal', sans-serif;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.3);
+        }
+        
+        .pledge-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 15px 40px rgba(255, 215, 0, 0.5);
+        }
+        
+        .pledge-counter {
+            margin-top: 30px;
+            font-size: 1.3rem;
+            color: #a0c4ff;
+        }
+        
+        .pledge-count {
+            font-size: 2rem;
+            font-weight: 900;
+            color: #ffd700;
+        }
+        
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            background: rgba(10, 14, 39, 0.8);
+            border-top: 1px solid rgba(255, 215, 0, 0.2);
+            position: relative;
+            z-index: 1;
+        }
+        
+        .footer-logo {
+            font-size: 1.5rem;
+            color: #ffd700;
+            margin-bottom: 15px;
+        }
+        
+        .footer-text {
+            color: #a0c4ff;
+            font-size: 0.9rem;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .main-title {
+                font-size: 2.5rem;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .tips-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .logo-section {
+                flex-direction: column;
+            }
+        }
+        
+        /* Confetti animation */
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            top: -10px;
+            z-index: 1000;
+            animation: confettiFall 3s ease-out forwards;
+        }
+        
+        @keyframes confettiFall {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+        }
+        
+        /* Energy wave animation */
+        .energy-wave {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100px;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cpath fill='%23ffd700' fill-opacity='0.1' d='M0,192L48,197.3C96,203,192,213,288,229.3C384,245,480,267,576,250.7C672,235,768,181,864,181.3C960,181,1056,235,1152,234.7C1248,235,1344,181,1392,154.7L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z'%3E%3C/path%3E%3C/svg%3E");
+            background-size: cover;
+            animation: wave 10s linear infinite;
+        }
+        
+        @keyframes wave {
+            0% { background-position-x: 0; }
+            100% { background-position-x: 1440px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-animation"></div>
+    <div class="stars" id="stars"></div>
+    <div class="bulb-container" id="bulbContainer"></div>
+    
+    <header>
+        <div class="logo-section">
+            <div class="university-badge">
+                <h3>🏛️ جامعة الابتكار</h3>
+            </div>
+        </div>
+        <h1 class="main-title">وفرها ونورها</h1>
+        <p class="subtitle">حملة توعوية للحفاظ على الطاقة واستخدام الكهرباء بحكمة</p>
+        <div class="sponsor">برعاية جامعة الابتكار</div>
+    </header>
+    
+    <section class="switch-section">
+        <div class="bulb-display" id="bulbDisplay">💡</div>
+        <div class="switch-container">
+            <div class="light-switch" id="lightSwitch" onclick="toggleLight()">
+                <div class="switch-toggle" id="switchToggle"></div>
+            </div>
+        </div>
+        <p class="switch-label">اضغط على المفتاح لتجربة التوفير!</p>
+    </section>
+    
+    <section class="stats-section">
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon">⚡</div>
+                <div class="stat-number" id="stat1">0</div>
+                <div class="stat-label">كيلوواط/ساعة موفرة يومياً</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">💰</div>
+                <div class="stat-number" id="stat2">0</div>
+                <div class="stat-label">جنيه مصري موفر شهرياً</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">🌱</div>
+                <div class="stat-number" id="stat3">0</div>
+                <div class="stat-label">كجم من CO₂ يتم تقليله</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">🏠</div>
+                <div class="stat-number" id="stat4">0</div>
+                <div class="stat-label">منزل شارك في الحملة</div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="tips-section">
+        <h2 class="section-title">💡 نصائح ذكية لتوفير الطاقة</h2>
+        <div class="tips-container">
+            <div class="tip-card">
+                <span class="tip-number">1</span>
+                <span class="tip-text">استخدم LED بدلاً من المصابيح التقليدية - توفر حتى 80% من الطاقة</span>
+            </div>
+            <div class="tip-card">
+                <span class="tip-number">2</span>
+                <span class="tip-text">أطفئ الأجهزة الكهربائية عند عدم الاستخدام بدلاً من وضعها في وضع الاستعداد</span>
+            </div>
+            <div class="tip-card">
+                <span class="tip-number">3</span>
+                <span class="tip-text">اضبط مكيف الهواء على 24 درجة مئوية للتوفير الأمثل</span>
+            </div>
+            <div class="tip-card">
+                <span class="tip-number">4</span>
+                <span class="tip-text">استغل الإضاءة الطبيعية قدر الإمكان خلال النهار</span>
+            </div>
+            <div class="tip-card">
+                <span class="tip-number">5</span>
+                <span class="tip-text">افصل الشواحن بعد اكتمال الشحن - تستهلك طاقة حتى عند عدم الاستخدام</span>
+            </div>
+            <div class="tip-card">
+                <span class="tip-number">6</span>
+                <span class="tip-text">استخدم الغسالة والجلاية بكامل حمولتها لتقليل عدد دورات التشغيل</span>
+            </div>
+        </div>
+    </section>
+    
+    <section class="calculator-section">
+        <div class="calc-card">
+            <h2 class="calc-title">🧮 حاسبة التوفير الشهري</h2>
+            <div class="calc-input">
+                <div class="input-group">
+                    <label>عدد المصابيح في المنزل</label>
+                    <input type="number" id="bulbsCount" placeholder="مثال: 15" min="1">
+                </div>
+                <div class="input-group">
+                    <label>متوسط ساعات الاستخدام اليومي</label>
+                    <input type="number" id="hoursPerDay" placeholder="مثال: 6" min="1">
+                </div>
+                <div class="input-group">
+                    <label>شريحة استهلاك الكهرباء (مصر 2026)</label>
+                    <select id="kwhPrice">
+                        <option value="0.68">الشريحة الأولى: 0-50 كيلوواط - 68 قرش</option>
+                        <option value="0.78">الشريحة الثانية: 51-100 كيلوواط - 78 قرش</option>
+                        <option value="0.95">الشريحة الثالثة: 101-200 كيلوواط - 95 قرش</option>
+                        <option value="1.55">الشريحة الرابعة: 201-350 كيلوواط - 1.55 جنيه</option>
+                        <option value="1.95">الشريحة الخامسة: 351-650 كيلوواط - 1.95 جنيه</option>
+                        <option value="2.10">الشريحة السادسة: 651-1000 كيلوواط - 2.10 جنيه</option>
+                        <option value="2.58">الشريحة السابعة: أكثر من 1000 كيلوواط - 2.58 جنيه</option>
+                        <option value="2.74">العداد الكودي - 2.74 جنيه</option>
+                    </select>
+                </div>
+            </div>
+            <button class="calc-btn" onclick="calculateSavings()">احسب توفيرك 💰</button>
+            <div class="calc-result" id="calcResult">
+                <div class="result-amount" id="resultAmount">0 جنيه</div>
+                <div class="result-text" id="resultText">توفير شهري محتمل باستخدام LED!</div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="pledge-section">
+        <h2 class="section-title">🤝 انضم إلى الحملة</h2>
+        <button class="pledge-btn" id="pledgeBtn" onclick="takePledge()">أتعهد بتوفير الطاقة ✋</button>
+        <div class="pledge-counter">
+            <span class="pledge-count" id="pledgeCount">1,247</span>
+            شخص انضموا للحملة
+        </div>
+    </section>
+    
+    <footer>
+        <div class="footer-logo">🏛️ جامعة الابتكار</div>
+        <p class="footer-text">حملة وفرها ونورها - معاً نحو مستقبل مستدام</p>
+        <p class="footer-text">© 2026 جميع الحقوق محفوظة</p>
+    </footer>
+    
+    <div class="energy-wave"></div>
+
+    <script>
+        // Generate stars
+        const starsContainer = document.getElementById('stars');
+        for (let i = 0; i < 100; i++) {
+            const star = document.createElement('div');
+            star.className = 'star';
+            star.style.left = Math.random() * 100 + '%';
+            star.style.top = Math.random() * 100 + '%';
+            star.style.animationDelay = Math.random() * 2 + 's';
+            starsContainer.appendChild(star);
+        }
+        
+        // Generate floating bulbs
+        const bulbContainer = document.getElementById('bulbContainer');
+        for (let i = 0; i < 8; i++) {
+            const bulb = document.createElement('div');
+            bulb.className = 'floating-bulb';
+            bulb.innerHTML = '💡';
+            bulb.style.left = Math.random() * 100 + '%';
+            bulb.style.top = Math.random() * 100 + '%';
+            bulb.style.animationDelay = Math.random() * 5 + 's';
+            bulb.style.animationDuration = (5 + Math.random() * 5) + 's';
+            bulbContainer.appendChild(bulb);
+        }
+        
+        // Light switch toggle
+        let isLightOn = false;
+        function toggleLight() {
+            isLightOn = !isLightOn;
+            const toggle = document.getElementById('switchToggle');
+            const bulb = document.getElementById('bulbDisplay');
+            
+            if (isLightOn) {
+                toggle.style.top = '85px';
+                bulb.classList.add('on');
+            } else {
+                toggle.style.top = '15px';
+                bulb.classList.remove('on');
+            }
+        }
+        
+        // Animated counters
+        function animateCounter(id, target, duration = 2000) {
+            const element = document.getElementById(id);
+            const start = 0;
+            const increment = target / (duration / 16);
+            let current = 0;
+            
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= target) {
+                    current = target;
+                    clearInterval(timer);
+                }
+                element.textContent = Math.floor(current).toLocaleString();
+            }, 16);
+        }
+        
+        // Start counters when page loads
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                animateCounter('stat1', 1250);
+                animateCounter('stat2', 520);
+                animateCounter('stat3', 890);
+                animateCounter('stat4', 1247);
+            }, 500);
+        });
+        
+        // Calculator - Egyptian Pounds with real 2026 tariffs
+        function calculateSavings() {
+            const bulbs = parseInt(document.getElementById('bulbsCount').value) || 0;
+            const hours = parseInt(document.getElementById('hoursPerDay').value) || 0;
+            const price = parseFloat(document.getElementById('kwhPrice').value) || 0;
+            
+            if (bulbs <= 0 || hours <= 0 || price <= 0) {
+                alert('الرجاء إدخال جميع القيم بشكل صحيح');
+                return;
+            }
+            
+            // Traditional bulb: 60W, LED: 10W
+            // Savings per month
+            const traditionalKwh = (bulbs * 60 * hours * 30) / 1000;
+            const ledKwh = (bulbs * 10 * hours * 30) / 1000;
+            const savingsKwh = traditionalKwh - ledKwh;
+            const savingsPounds = savingsKwh * price;
+            
+            document.getElementById('resultAmount').textContent = savingsPounds.toFixed(2) + ' جنيه مصري';
+            document.getElementById('resultText').textContent = 
+                `توفير شهري محتمل: ${savingsKwh.toFixed(1)} كيلوواط/ساعة = ${savingsPounds.toFixed(2)} جنيه مصري!`;
+            document.getElementById('calcResult').classList.add('show');
+        }
+        
+        // Pledge functionality
+        let pledgeCount = 1247;
+        let hasPledged = false;
+        
+        function takePledge() {
+            if (hasPledged) {
+                alert('لقد أخذت التعهد مسبقاً! شكراً لمشاركتك 🌟');
+                return;
+            }
+            
+            hasPledged = true;
+            pledgeCount++;
+            document.getElementById('pledgeCount').textContent = pledgeCount.toLocaleString();
+            document.getElementById('pledgeBtn').textContent = '✅ تم التعهد!';
+            document.getElementById('pledgeBtn').style.background = 'linear-gradient(135deg, #4CAF50, #8BC34A)';
+            
+            // Create confetti
+            for (let i = 0; i < 50; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = Math.random() * 100 + '%';
+                confetti.style.background = ['#ffd700', '#ff6b6b', '#4ecdc4', '#45b7d1', '#96ceb4'][Math.floor(Math.random() * 5)];
+                confetti.style.animationDelay = Math.random() * 2 + 's';
+                document.body.appendChild(confetti);
+                
+                setTimeout(() => confetti.remove(), 3000);
+            }
+            
+            alert('شكراً لتعهدك! معاً نحو مستقبل أكثر استدامة 💚⚡');
+        }
+        
+        // Add hover effects to tip cards
+        document.querySelectorAll('.tip-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.borderRightWidth = '8px';
+            });
+            card.addEventListener('mouseleave', function() {
+                this.style.borderRightWidth = '4px';
+            });
+        });
+    </script>
+</body>
+</html>'''
+
+with open('/mnt/agents/output/energy_saving_campaign.html', 'w', encoding='utf-8') as f:
+    f.write(html_content)
+
+print("File updated successfully!")
+print(f"File size: {len(html_content)} characters")
